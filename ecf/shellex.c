@@ -13,7 +13,7 @@ int main()
 
     while (1) {
 	/* Read */
-	printf("> ");                   
+	printf("dpz> ");
 	Fgets(cmdline, MAXLINE, stdin); 
 	if (feof(stdin))
 	    exit(0);
@@ -41,10 +41,17 @@ void eval(char *cmdline)
     //set appropriately
     if (!builtin_command(argv)) { 
         if ((pid = Fork()) == 0) {   /* Child runs user job */
+            char **p=environ;
+            while(p!=NULL&&*p!=NULL){
+                printf("%s\n",*p);
+                p++;
+            }
+            printf("here\n");
             if (execve(argv[0], argv, environ) < 0) {
                 printf("%s: Command not found.\n", argv[0]);
                 exit(0);
             }
+            printf("get it %s", argv[0]);//never run execve成功不会返回
         }
 
 	/* Parent waits for foreground job to terminate */

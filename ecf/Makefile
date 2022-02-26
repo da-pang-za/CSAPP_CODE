@@ -54,8 +54,6 @@ PROGS = fragments.o\
 	pg\
 	pgchild\
 	hello\
-	hello-asm32\
-	hello-asm64\
 	jmpbuf\
 	rfork.o\
 	rfork-driver\
