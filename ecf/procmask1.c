@@ -44,6 +44,7 @@ int main(int argc, char **argv)
         if ((pid = Fork()) == 0) { /* Child process */
             Execve("/bin/date", argv, NULL);
         }
+        //在执行下面这条语句之前 可能子进程已经结束 导致加入不可能再被wait到的pid
         Sigprocmask(SIG_BLOCK, &mask_all, &prev_all); /* Parent process */  
         addjob(pid);  /* Add the child to the job list */
         Sigprocmask(SIG_SETMASK, &prev_all, NULL);    

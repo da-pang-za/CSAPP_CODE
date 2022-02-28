@@ -47,9 +47,12 @@ int main(int argc, char **argv)
             Sigprocmask(SIG_SETMASK, &prev_one, NULL); /* Unblock SIGCHLD */
             Execve("/bin/date", argv, NULL);
         }
+        //如果子进程先执行完  SIGCHLD信号会阻塞
+        //阻塞所有信号 防止add被打断   todo 为什么这里mask_all 不直接在上面用？
         Sigprocmask(SIG_BLOCK, &mask_all, NULL); /* Parent process */  
         addjob(pid);  /* Add the child to the job list */
         Sigprocmask(SIG_SETMASK, &prev_one, NULL);  /* Unblock SIGCHLD */
+        //这里收到信号
     }
     exit(0);
 }

@@ -4,7 +4,7 @@
 void handler2(int sig) 
 {
     int olderrno = errno;
-
+    //没有子进程则立即返回-1
     while (waitpid(-1, NULL, 0) > 0) {
         Sio_puts("Handler reaped child\n");
     }
