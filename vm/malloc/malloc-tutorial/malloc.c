@@ -32,6 +32,7 @@ void *global_base = NULL;
 
 // Iterate through blocks until we find one that's large enough.
 // TODO: split block up if it's larger than necessary
+//找到空闲且size足够的块
 struct block_meta *find_free_block(struct block_meta **last, size_t size) {
   struct block_meta *current = global_base;
   while (current && !(current->free && current->size >= size)) {
@@ -94,7 +95,7 @@ void *malloc(size_t size) {
   
   return(block+1);//跳过mata_data部分
 }
-
+//分配并置零
 void *calloc(size_t nelem, size_t elsize) {
   size_t size = nelem * elsize;
   void *ptr = malloc(size);
@@ -107,7 +108,7 @@ struct block_meta *get_block_ptr(void *ptr) {
   return (struct block_meta*)ptr - 1;
 }
 
-//不会降低 堆顶  只标记
+//不会降低堆顶  只标记
 void free(void *ptr) {
   if (!ptr) {
     return;
@@ -120,7 +121,7 @@ void free(void *ptr) {
   block_ptr->free = 1;
   block_ptr->magic = 0x55555555;  
 }
-
+//重新调整块的大小
 void *realloc(void *ptr, size_t size) {
   if (!ptr) { 
     // NULL ptr. realloc should act like malloc.
@@ -128,11 +129,12 @@ void *realloc(void *ptr, size_t size) {
   }
 
   struct block_meta* block_ptr = get_block_ptr(ptr);
+  //空间够  不动
   if (block_ptr->size >= size) {
     // We have enough space. Could free some once we implement split.
     return ptr;
   }
-
+  //空间不够 分配一块新的  free原来的
   // Need to really realloc. Malloc new space and free old space.
   // Then copy old data to new space.
   void *new_ptr;
