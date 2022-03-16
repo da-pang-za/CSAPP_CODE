@@ -1,5 +1,5 @@
 
-/* Fcyc measures the speed of any "test function."  Such a function
+/* Fcyc measures the speed of any "test.c function."  Such a function
    is passed a list of integer parameters, which it may interpret
    in any way it chooses.
 */

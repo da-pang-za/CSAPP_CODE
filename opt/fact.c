@@ -112,7 +112,7 @@ long fact_u3c(long n)
     return result0 * result1 * result2;
 }
 
-/* Strange version to test partial expansion of recursion */
+/* Strange version to test.c partial expansion of recursion */
 long rfact_a(long n)
 {
     if (n <= 1)
@@ -155,7 +155,7 @@ static void test(long n)
     funs[idx](n);
 }
 
-/* Perform functional test of factorial function i */
+/* Perform functional test.c of factorial function i */
 static void ftest(long i)
 {
     long n;

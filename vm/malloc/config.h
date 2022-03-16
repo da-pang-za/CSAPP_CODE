@@ -28,9 +28,9 @@
 /*
  * This is the list of default tracefiles in TRACEDIR that the driver
  * will use for testing. Modify this if you want to add or delete
- * traces from the driver's test suite.
+ * traces from the driver's test.c suite.
  *
- * The first four test correctness.  The last several test utilization
+ * The first four test.c correctness.  The last several test.c utilization
  * and performance.
  */
 #define DEFAULT_TRACEFILES \

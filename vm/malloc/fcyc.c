@@ -19,7 +19,7 @@
 #define MAXSAMPLES 20        /* Give up after MAXSAMPLES */
 #define EPSILON 0.01         /* K samples should be EPSILON of each other*/
 #define COMPENSATE 0         /* 1-> try to compensate for clock ticks */
-#define CLEAR_CACHE 0        /* Clear cache before running test function */
+#define CLEAR_CACHE 0        /* Clear cache before running test.c function */
 #define CACHE_BYTES (1<<19)  /* Max cache size in bytes */
 #define CACHE_BLOCK 32       /* Cache block size in bytes */
 

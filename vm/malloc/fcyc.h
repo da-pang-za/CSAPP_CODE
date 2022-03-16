@@ -1,16 +1,16 @@
 /*
  * fcyc.h - prototypes for the routines in fcyc.c that estimate the
- *     time in CPU cycles used by a test function f
+ *     time in CPU cycles used by a test.c function f
  * 
  * Copyright (c) 2002, R. Bryant and D. O'Hallaron, All rights reserved.
  * May not be used, modified, or copied without permission.
  *
  */
 
-/* The test function takes a generic pointer as input */
+/* The test.c function takes a generic pointer as input */
 typedef void (*test_funct)(void *);
 
-/* Compute number of cycles used by test function f */
+/* Compute number of cycles used by test.c function f */
 double fcyc(test_funct f, void* argp);
 
 /*********************************************************

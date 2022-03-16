@@ -59,7 +59,7 @@ void run(long cnt) {
     benchmarks[current_benchmark].cfunct(data, &combine_result);
 }
      
-/* Perform test of combination function */
+/* Perform test.c of combination function */
 static void run_test(long bench_index) {
     double cpe;
     char *description = benchmarks[bench_index].description;
