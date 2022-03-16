@@ -6,7 +6,7 @@
 
 #include <sys/time.h>
 #include "timer.h"
-
+//这里是小于返回1
 static int timer_comp(void *ti, void *tj) {
     zv_timer_node *timeri = (zv_timer_node *)ti;
     zv_timer_node *timerj = (zv_timer_node *)tj;
