@@ -29,7 +29,7 @@ void run(int *junk) {
     current_lf(data);
 }
      
-/* Perform test of combinition function */
+/* Perform test.c of combinition function */
 static void run_test(lower_t lf, int len)
 {
     double time;

@@ -101,7 +101,7 @@ void test_lower2(long *lenp)
   unset_len(len);
 }
 
-/* Perform test of function */
+/* Perform test.c of function */
 static double run_test(test_funct fun, long len)
 {
   double cycs;

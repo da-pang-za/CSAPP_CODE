@@ -189,7 +189,7 @@ static void test(long n)
 }
 
 
-/* Perform test of one of the list functions */
+/* Perform test.c of one of the list functions */
 static void run_test(long i)
 {
     double cpe;

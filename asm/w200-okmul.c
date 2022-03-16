@@ -148,37 +148,37 @@ int main(int argc, char *argv[]) {
     printf("Signed multiply: %ld*%ld->%ld, ok = %d\n",
 	   sx, sy, sx*sy, sok);
 
-    /* test tmult_ok_asm */
+    /* test.c tmult_ok_asm */
     result = tmult_ok_asm(sx, sy, &sdest);
     printf("%s tmult_ok_asm: %ld*%ld->%ld, ok = %d\n",
 	   result == sok && sdest == sprod ? "OK" : "ERR",
 	   sx, sy, sdest, result);
 
-    /* test tmult_ok1 */
+    /* test.c tmult_ok1 */
     result = tmult_ok1(sx, sy, &sdest);
     printf("%s tmult_ok1: %ld*%ld->%ld, ok = %d\n",
 	   result == sok && sdest == sprod ? "OK" : "ERR",
 	   sx, sy, sdest, result);
 
-    /* test tmult_ok2 */
+    /* test.c tmult_ok2 */
     result = tmult_ok2(sx, sy, &sdest);
     printf("%s tmult_ok2: %ld*%ld->%ld, ok = %d\n",
 	   result == sok && sdest == sprod ? "OK" : "ERR",
 	   sx, sy, sdest, result);
 
-    /* test tmult_ok2 */
+    /* test.c tmult_ok2 */
     result = tmult_ok2(sx, sy, &sdest);
     printf("%s tmult_ok2: %ld*%ld->%ld, ok = %d\n",
 	   result == sok && sdest == sprod ? "OK" : "ERR",
 	   sx, sy, sdest, result);
 
-    /* test tmult_ok3 */
+    /* test.c tmult_ok3 */
     result = tmult_ok3(sx, sy, &sdest);
     printf("%s tmult_ok3: %ld*%ld->%ld, ok = %d\n",
 	   result == sok && sdest == sprod ? "OK" : "ERR",
 	   sx, sy, sdest, result);
 
-    /* test tmult_ok4 */
+    /* test.c tmult_ok4 */
     result = tmult_ok4(sx, sy, &sdest);
     printf("%s tmult_ok4: %ld*%ld->%ld, ok = %d\n",
 	   result == sok && sdest == sprod ? "OK" : "ERR",
@@ -193,13 +193,13 @@ int main(int argc, char *argv[]) {
     printf("\nUnsigned long multiply: %lu*%lu->%lu, ok = %d\n",
 	   ux, uy, ux*uy, uok);
 
-    /* test umult_ok_asm */
+    /* test.c umult_ok_asm */
     result = umult_ok_asm(ux, uy, &udest);
     printf("%s umult_ok_asm: %lu*%lu->%lu, ok = %d\n",
 	   result == uok && uprod == udest ? "OK" : "ERR",
 	   ux, uy, udest, result);
 
-    /* test umult_ok */
+    /* test.c umult_ok */
     result = umult_ok(ux, uy, &udest);
     printf("%s umult_ok: %lu*%lu->%lu, ok = %d\n",
 	   result == uok && uprod == udest ? "OK" : "ERR",
