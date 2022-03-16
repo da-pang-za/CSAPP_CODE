@@ -14,10 +14,10 @@
 #define TIMEOUT_DEFAULT 500     /* ms */
 
 typedef int (*timer_handler_pt)(zv_http_request_t *rq);
-
+//记录每个请求的时间 以及handler
 typedef struct zv_timer_node_s{
     size_t key;
-    int deleted;    /* if remote client close the socket first, set deleted to 1 */
+    int deleted;    /* 标记为无效 直接删 if remote client close the socket first, set deleted to 1 */
     timer_handler_pt handler;
     zv_http_request_t *rq;
 } zv_timer_node;

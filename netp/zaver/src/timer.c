@@ -15,8 +15,9 @@ static int timer_comp(void *ti, void *tj) {
 }
 
 zv_pq_t zv_timer;
-size_t zv_current_msec;
 
+size_t zv_current_msec;//这里用long比较好 否则32位机器size_t不够用
+//更新时间 每次调用timer相关的函数都会更新时间
 static void zv_time_update() {
     // there is only one thread calling zv_time_update, no need to lock?
     struct timeval tv;
@@ -24,21 +25,21 @@ static void zv_time_update() {
 
     rc = gettimeofday(&tv, NULL);
     check(rc == 0, "zv_time_update: gettimeofday error");
-
+    //返回毫秒时间         秒                 微秒
     zv_current_msec = tv.tv_sec * 1000 + tv.tv_usec / 1000;
     debug("in zv_time_update, time = %zu", zv_current_msec);
 }
 
-
+//初始化:初始timer的堆
 int zv_timer_init() {
     int rc;
     rc = zv_pq_init(&zv_timer, timer_comp, ZV_PQ_DEFAULT_SIZE);
     check(rc == ZV_OK, "zv_pq_init error");
-   
+
     zv_time_update();
     return ZV_OK;
 }
-
+//堆顶距离过期还剩多少毫秒  如果已经过期 则返回0
 int zv_find_timer() {
     zv_timer_node *timer_node;
     int time = ZV_TIMER_INFINITE;
@@ -51,12 +52,12 @@ int zv_find_timer() {
         check(timer_node != NULL, "zv_pq_min error");
 
         if (timer_node->deleted) {
-            rc = zv_pq_delmin(&zv_timer); 
+            rc = zv_pq_delmin(&zv_timer);
             check(rc == 0, "zv_pq_delmin");
             free(timer_node);
             continue;
         }
-             
+        //距离过期的时间
         time = (int) (timer_node->key - zv_current_msec);
         debug("in zv_find_timer, key = %zu, cur = %zu",
                 timer_node->key,
@@ -64,10 +65,10 @@ int zv_find_timer() {
         time = (time > 0? time: 0);
         break;
     }
-    
+
     return time;
 }
-
+//处理过期的key   这个可以复用zv_find_timer的代码
 void zv_handle_expire_timers() {
     debug("in zv_handle_expire_timers");
     zv_timer_node *timer_node;
@@ -75,30 +76,39 @@ void zv_handle_expire_timers() {
 
     while (!zv_pq_is_empty(&zv_timer)) {
         debug("zv_handle_expire_timers, size = %zu", zv_pq_size(&zv_timer));
+        //==========================================
         zv_time_update();
         timer_node = (zv_timer_node *)zv_pq_min(&zv_timer);
         check(timer_node != NULL, "zv_pq_min error");
 
         if (timer_node->deleted) {
-            rc = zv_pq_delmin(&zv_timer); 
+            rc = zv_pq_delmin(&zv_timer);
             check(rc == 0, "zv_handle_expire_timers: zv_pq_delmin error");
             free(timer_node);
             continue;
         }
-        
+
         if (timer_node->key > zv_current_msec) {
             return;
         }
-
+        //===========================================
+//        //上面的代码可以用这个代替 todo 待验证
+//        if(zv_find_timer()!=0)break;
+//        timer_node= (zv_timer_node *)zv_pq_min(&zv_timer);
+        //===========================================
+        //过期用handler处理
         if (timer_node->handler) {
             timer_node->handler(timer_node->rq);
         }
-        rc = zv_pq_delmin(&zv_timer); 
+        rc = zv_pq_delmin(&zv_timer);
         check(rc == 0, "zv_handle_expire_timers: zv_pq_delmin error");
         free(timer_node);
     }
 }
 
+
+
+//相当于时间事件处理  超时的时候调用handler
 void zv_add_timer(zv_http_request_t *rq, size_t timeout, timer_handler_pt handler) {
     int rc;
     zv_timer_node *timer_node = (zv_timer_node *)malloc(sizeof(zv_timer_node));
@@ -115,7 +125,7 @@ void zv_add_timer(zv_http_request_t *rq, size_t timeout, timer_handler_pt handle
     rc = zv_pq_insert(&zv_timer, timer_node);
     check(rc == 0, "zv_add_timer: zv_pq_insert error");
 }
-
+//标记 延迟删除
 void zv_del_timer(zv_http_request_t *rq) {
     debug("in zv_del_timer");
     zv_time_update();
