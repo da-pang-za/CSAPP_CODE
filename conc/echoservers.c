@@ -1,14 +1,16 @@
 /* 
  * echoservers.c - A concurrent echo server based on select
  * 基于select IO多路复用的并发服务器
+ * select 监听listen问加你描述符  和  每个连接文件描述符
+ *
  */
 /* $begin echoserversmain */
 #include "csapp.h"
 
 typedef struct { /* Represents a pool of connected descriptors */ //line:conc:echoservers:beginpool
     int maxfd;        /* Largest descriptor in read_set */
-    fd_set read_set;  /* Set of all active descriptors */
-    fd_set ready_set; /* Subset of descriptors ready for reading  */
+    fd_set read_set;  /* Set of all active descriptors 文件描述符集合 */
+    fd_set ready_set; /* Subset of descriptors ready for reading  就绪的文件描述符集合*/
     int nready;       /* Number of ready descriptors from select */
     int maxi;         /* Highwater index into client array */
     int clientfd[FD_SETSIZE];    /* Set of active descriptors */
@@ -40,7 +42,7 @@ int main(int argc, char **argv) {
 
     while (1) {
         /* Wait for listening/connected descriptor(s) to become ready */
-        pool.ready_set = pool.read_set;
+        pool.ready_set = pool.read_set;//每次重置要监听的fd
         pool.nready = Select(pool.maxfd + 1, &pool.ready_set, NULL, NULL, NULL);
 
         /* If listening descriptor ready, add new client to pool */
@@ -81,7 +83,7 @@ void add_client(int connfd, pool *p) {
             p->clientfd[i] = connfd;                 //line:conc:echoservers:beginaddclient
             Rio_readinitb(&p->clientrio[i], connfd); //line:conc:echoservers:endaddclient
 
-            /* Add the descriptor to descriptor set */
+            /* Add the descriptor to descriptor set 加到监听集合中 */
             FD_SET(connfd, &p->read_set); //line:conc:echoservers:addconnfd
 
             /* Update max descriptor and pool highwater mark */
@@ -109,6 +111,7 @@ void check_clients(pool *p) {
         /* If the descriptor is ready, echo a text line from it */
         if ((connfd > 0) && (FD_ISSET(connfd, &p->ready_set))) {
             p->nready--;
+            //如果一次没读完 这个fd下一次还是就绪  ？
             if ((n = Rio_readlineb(&rio, buf, MAXLINE)) != 0) {
                 byte_cnt += n; //line:conc:echoservers:beginecho
                 printf("Server received %d (%d total) bytes on fd %d\n",

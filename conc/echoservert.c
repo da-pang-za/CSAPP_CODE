@@ -1,5 +1,6 @@
 /* 
  * echoservert.c - A concurrent echo server using threads
+ * 多线程并发
  */
 /* $begin echoservertmain */
 #include "csapp.h"
