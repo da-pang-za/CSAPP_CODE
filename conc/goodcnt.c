@@ -3,24 +3,23 @@
  */
 /* $begin goodcnt */
 #include "csapp.h"
-
+//信号量使用
 void *thread(void *vargp); /* Thread routine prototype */
 
 /* Global shared variables */
 /* $begin goodcntsemdef */
-    volatile long cnt = 0; /* Counter */
-    sem_t mutex;           /* Semaphore that protects counter */
+volatile long cnt = 0; /* Counter */
+sem_t mutex;           /* Semaphore that protects counter */
 /* $end goodcntsemdef */
 
-int main(int argc, char **argv) 
-{
+int main(int argc, char **argv) {
     int niters;
     pthread_t tid1, tid2;
 
     /* Check input argument */
     if (argc != 2) {
-	printf("usage: %s <niters>\n", argv[0]);
-	exit(0);
+        printf("usage: %s <niters>\n", argv[0]);
+        exit(0);
     }
     niters = atoi(argv[1]);
 
@@ -35,22 +34,21 @@ int main(int argc, char **argv)
 
     /* Check result */
     if (cnt != (2 * niters))
-	printf("BOOM! cnt=%ld\n", cnt);
+        printf("BOOM! cnt=%ld\n", cnt);
     else
-	printf("OK cnt=%ld\n", cnt);
+        printf("OK cnt=%ld\n", cnt);
     exit(0);
 }
 
 /* Thread routine */
-void *thread(void *vargp) 
-{
-    int i, niters = *((int *)vargp);
+void *thread(void *vargp) {
+    int i, niters = *((int *) vargp);
 
 /* $begin goodcntthread */
     for (i = 0; i < niters; i++) {
-	P(&mutex);
-	cnt++;
-	V(&mutex);
+        P(&mutex);
+        cnt++;
+        V(&mutex);
     }
 /* $end goodcntthread */
     return NULL;
