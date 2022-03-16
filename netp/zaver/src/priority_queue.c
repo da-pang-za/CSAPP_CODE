@@ -54,20 +54,13 @@ static int resize(zv_pq_t *zv_pq, size_t new_size) {
     zv_pq->size = new_size;
     return ZV_OK;
 }
-
+//交换
 static void exch(zv_pq_t *zv_pq, size_t i, size_t j) {
     void *tmp = zv_pq->pq[i];
     zv_pq->pq[i] = zv_pq->pq[j];
     zv_pq->pq[j] = tmp;
 }
-
-static void swim(zv_pq_t *zv_pq, size_t k) {
-    while (k > 1 && zv_pq->comp(zv_pq->pq[k], zv_pq->pq[k/2])) {
-        exch(zv_pq, k, k/2);
-        k /= 2;
-    }
-}
-
+//下沉  返回最终下沉到的位置
 static size_t sink(zv_pq_t *zv_pq, size_t k) {
     size_t j;
     size_t nalloc = zv_pq->nalloc;
@@ -82,7 +75,7 @@ static size_t sink(zv_pq_t *zv_pq, size_t k) {
     
     return k;
 }
-
+//删除顶部
 int zv_pq_delmin(zv_pq_t *zv_pq) {
     if (zv_pq_is_empty(zv_pq)) {
         return ZV_OK;
@@ -99,9 +92,16 @@ int zv_pq_delmin(zv_pq_t *zv_pq) {
 
     return ZV_OK;
 }
+//上浮 insert用
+static void swim(zv_pq_t *zv_pq, size_t k) {
+    while (k > 1 && zv_pq->comp(zv_pq->pq[k], zv_pq->pq[k/2])) {
+        exch(zv_pq, k, k/2);
+        k /= 2;
+    }
+}
 
 int zv_pq_insert(zv_pq_t *zv_pq, void *item) {
-    if (zv_pq->nalloc + 1 == zv_pq->size) {
+    if (zv_pq->nalloc + 1 == zv_pq->size) {//是否正好用完了
         if (resize(zv_pq, zv_pq->size * 2) < 0) {
             return -1;
         }
@@ -112,7 +112,7 @@ int zv_pq_insert(zv_pq_t *zv_pq, void *item) {
 
     return ZV_OK;
 }
-
+//never use
 int zv_pq_sink(zv_pq_t *zv_pq, size_t i) {
     return sink(zv_pq, i);
 }
