@@ -8,11 +8,11 @@
 #define UTIL_H
 
 // max number of listen queue
-#define LISTENQ     1024
+#define LISTENQ     1024//编程接口 p951   先略 todo
 
-#define BUFLEN      8192
+#define BUFLEN      8192 //配置文件buf长度
 
-#define DELIM       "="
+#define DELIM       "="  //分隔符 读配置文件用的
 
 #define ZV_CONF_OK      0
 #define ZV_CONF_ERROR   100
@@ -31,4 +31,9 @@ int open_listenfd(int port);
 int make_socket_non_blocking(int fd);
 
 int read_conf(char *filename, zv_conf_t *cf, char *buf, int len);
+
+/* Signal wrappers */
+typedef void handler_t(int);
+handler_t *Signal(int signum, handler_t *handler);
+
 #endif
