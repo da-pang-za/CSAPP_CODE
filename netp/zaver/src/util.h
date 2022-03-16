@@ -20,7 +20,7 @@
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 
 struct zv_conf_s {
-    void *root;
+    void *root;//根目录位置
     int port;
     int thread_num;
 };
