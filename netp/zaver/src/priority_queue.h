@@ -20,7 +20,7 @@ typedef struct {
     size_t size;
     zv_pq_comparator_pt comp;
 } zv_pq_t;
-
+//comp比较函数   size 应为底层是数组 resize用的？
 int zv_pq_init(zv_pq_t *zv_pq, zv_pq_comparator_pt comp, size_t size);
 int zv_pq_is_empty(zv_pq_t *zv_pq);
 size_t zv_pq_size(zv_pq_t *zv_pq);

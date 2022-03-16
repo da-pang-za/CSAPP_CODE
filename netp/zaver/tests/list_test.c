@@ -48,7 +48,7 @@ int main() {
     for (i=0; i<100; i++) {
         add_node((void *)i, &(st_h.list));
     }
-    
+
     check(list_empty(&(st_h.list)) == 0, "error: list should not be empty");
 
     list_head *pos;
@@ -74,3 +74,5 @@ int main() {
     printf("pass list_test");
     return 0;
 }
+
+
