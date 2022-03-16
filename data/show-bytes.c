@@ -28,7 +28,7 @@ void show_pointer(void *x) {
 /* $end show-bytes */
 
 
-/* $begin test-show-bytes */
+/* $begin test.c-show-bytes */
 void test_show_bytes(int val) {
     int ival = val;
     float fval = (float) ival;
@@ -37,7 +37,7 @@ void test_show_bytes(int val) {
     show_float(fval);
     show_pointer(pval);
 }
-/* $end test-show-bytes */
+/* $end test.c-show-bytes */
 
 void simple_show_a() {
 /* $begin simple-show-a */

@@ -1,4 +1,4 @@
-/* Experiments to test pushl %esp */
+/* Experiments to test.c pushl %esp */
 
 #include <stdio.h>
 #include <stdlib.h>
