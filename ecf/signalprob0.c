@@ -14,7 +14,7 @@ void handler1(int sig)
 
     Sigfillset(&mask);
     Sigprocmask(SIG_BLOCK, &mask, &prev_mask);  /* Block sigs */
-    Sio_putl(--counter);
+    Sio_putl(--counter);//输出1
     Sigprocmask(SIG_SETMASK, &prev_mask, NULL); /* Restore sigs */
 
     _exit(0);
@@ -32,12 +32,12 @@ int main()
     if ((pid = Fork()) == 0) {
         while(1) {};
     }
-    Kill(pid, SIGUSR1); 
+    Kill(pid, SIGUSR1); //用户定义信号
     Waitpid(-1, NULL, 0);
 
     Sigfillset(&mask);
     Sigprocmask(SIG_BLOCK, &mask, &prev_mask);  /* Block sigs */
-    printf("%ld", ++counter);
+    printf("%ld", ++counter);//输出3  父子进程的变量是不同的
     Sigprocmask(SIG_SETMASK, &prev_mask, NULL); /* Restore sigs */
 
     exit(0);
