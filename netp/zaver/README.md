@@ -1,6 +1,19 @@
 ## 介绍  
 
 前辈实现的基于epoll的web server  nginx核心
+## 学习进度
+todo:HTTP
+### non-blocking好处/blocking IO缺点：
+* BIO占用线程多(线程数=连接数) 上下文切换开销大 创建销毁线程开销大(可用线程池优化)
+* BIO无法配合事件驱动  因为阻塞了
+* 参考阿里知乎 https://www.zhihu.com/question/382972191
+
+### 单线程处理所有handler缺点：
+* 可能会有某个事件处理占用时间太长，其他事件得不到执行(饥饿)
+阻塞是什么：CSAPP p511
+
+fd饥饿
+* p1123
 
 Zaver
 =====
