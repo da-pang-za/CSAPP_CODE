@@ -47,7 +47,7 @@ int fix_prod_ele_opt(fix_matrix A, fix_matrix B, long i, long k) {
     int *Bptr = &B[0][k];    /* Points to elements in column k of B */
     int *Bend = &B[N][k];    /* Marks stopping point for Bptr       */ // line:asm:fixprodele:c:bend
     int result = 0;
-    do {                          /* No need for initial test */
+    do {                          /* No need for initial test.c */
 	result += *Aptr * *Bptr;  /* Add next product to sum  */
 	Aptr ++;                  /* Move Aptr to next column */
 	Bptr += N;                /* Move Bptr to next row    */
