@@ -35,7 +35,7 @@ void zv_epoll_del(int epfd, int fd, struct epoll_event *event) {
     check(rc == 0, "zv_epoll_del: epoll_ctl");
     return;
 }
-
+//timeout: p1116 最多等待timeout毫秒
 int zv_epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout) {
     int n = epoll_wait(epfd, events, maxevents, timeout);
     check(n >= 0, "zv_epoll_wait: epoll_wait");
